@@ -3,6 +3,7 @@ apply plugin: 'eclipse'
 apply plugin: 'application'
 
 mainClassName = 'org.fie.test.Check2'
+confDir = 'src/main/conf'
 
 repositories {
     mavenCentral()
@@ -11,4 +12,8 @@ repositories {
 dependencies {
     compile 'mysql:mysql-connector-java:5.1.38'
     compile 'org.codehaus.groovy:groovy-all:2.4.4'
+}
+
+distZip {
+	println projectDir
 }
