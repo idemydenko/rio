@@ -3,7 +3,15 @@ apply plugin: 'eclipse'
 apply plugin: 'application'
 
 mainClassName = 'org.fie.test.Check2'
-confDir = 'src/main/conf'
+
+def confDir = "src/main/conf"
+
+if (!hasProperty("profile")) 
+	ext.profile = "default"
+
+println ext// ${profile}
+println "blaaaaaaaaaaaaa"
+println profile
 
 repositories {
     mavenCentral()
@@ -14,6 +22,6 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.4'
 }
 
-distZip {
-	println projectDir
+applicationDistribution.from(confDir) {
+	into 'conf'
 }
