@@ -1,4 +1,4 @@
-project.ext.db = [
+ext.db = [
 	url: "jdbc:mysql://localhost:3333/dev_fie",
 	user: "dev_fie",
 	password: "dev_fie"

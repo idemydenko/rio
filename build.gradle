@@ -5,11 +5,13 @@ apply plugin: 'application'
 mainClassName = 'org.fie.test.Check2'
 
 def confDir = "src/main/conf"
-def profilesDir = "src/main/profiles"
+def profilesDir = "profiles"
 
 if (!hasProperty("profile")) 
 	ext.profile = "dev"
-	
+
+apply from: "${profilesDir}/${profile}.gradle"
+   
 repositories {
     mavenCentral()
 }
@@ -19,10 +21,22 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.4'
 }
 
-applicationDistribution.from(confDir) {
-	apply from: "${profilesDir}/${profile}.gradle"
-	
-	into('conf') {
-		expand ('@url': ext.db.url, '@user': db.user)
-	}
+sourceSets {
+    main {
+        resources {
+            srcDir "src/main/conf"
+            srcDir "src/main/resources"
+        }
+    }
 }
+
+processResources {
+    expand db
+}
+
+applicationDistribution.from(confDir) {
+    into('conf')
+    expand db
+}
+
+task dist(dependsOn: [clean, distZip])
