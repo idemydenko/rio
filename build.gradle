@@ -5,14 +5,11 @@ apply plugin: 'application'
 mainClassName = 'org.fie.test.Check2'
 
 def confDir = "src/main/conf"
+def profilesDir = "src/main/profiles"
 
 if (!hasProperty("profile")) 
-	ext.profile = "default"
-
-println ext// ${profile}
-println "blaaaaaaaaaaaaa"
-println profile
-
+	ext.profile = "dev"
+	
 repositories {
     mavenCentral()
 }
@@ -23,5 +20,9 @@ dependencies {
 }
 
 applicationDistribution.from(confDir) {
-	into 'conf'
+	apply from: "${profilesDir}/${profile}.gradle"
+	
+	into('conf') {
+		expand ('@url': ext.db.url, '@user': db.user)
+	}
 }
